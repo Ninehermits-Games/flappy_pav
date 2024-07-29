@@ -79,6 +79,9 @@
         if (url.match(/\.data/) || url.match(/\.bundle/)) {
           return "must-revalidate";
         }
+        if (url.match(/\.mp4/) || url.match(/\.custom/)) {
+          return "immutable";
+        }
         return "no-store";
       },
       codeUrl: buildUrl + "/Build.wasm",
