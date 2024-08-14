@@ -3,30 +3,31 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <!-- for cache control -->
-  <meta http-equiv="Cache-Control" content="no-store,max-age=0, must-revalidate" />
-  <meta http-equiv="Content-Encoding" content="gzip" />
-  <meta http-equiv="Expires" content="0" />
-  <meta http-equiv="Pragma" content="no-cache" />
+      <!-- for cache control -->
+    <meta http-equiv="Cache-Control" content="no-store,max-age=0, must-revalidate" />
+    <meta http-equiv="Content-Encoding" content="gzip" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
     <title>Flappy PAV</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
-  <!-- Telegram Mini App APi -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-
+    <!-- Telegram Mini App APi -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
   </head>
   <body>
     <div id="unity-container">
-    <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
-      <!-- <div id="unity-logo"></div> -->
+         <!-- <div id="unity-logo"></div> -->
         <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        <div id="unity-progress-bar-value">0%</div>
-      </div>
+          <div id="unity-progress-bar-full">
+            <div id="unity-progress-bar-value">0%</div>
+          </div>
+        </div>
       </div>
       <div id="unity-warning"> </div>
     </div>
@@ -103,29 +104,45 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-        progressBarValue.innerHTML = Math.round(100 * progress) + "%";
+          progressBarValue.innerHTML = Math.round(100 * progress) + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
+          const fitScreen = function() {
+            const body = document.body;
+            const docElement = document.documentElement;
+            if(body.dataset.scaled) {
+              window.scrollTo(0, +body.dataset.scaled);
+              delete body.dataset.scaled;
+              body.style.transform = "none";
+            } else {
+              const maxHeight = Math.max(body.scrollHeight, body.offsetHeight, docElement.clientHeight, docElement.scrollHeight, docElement.offsetHeight);
+              const viewportHeight = Math.max(docElement.clientHeight, window.innerHeight || 0);
+              const scaleFactor = viewportHeight / maxHeight;
+              body.style.transform = "scale(" + scaleFactor + ")";
+              body.dataset.scaled = window.scrollY;
+              window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
+            }
+			    };
+			    fitScreen();
         }).catch((message) => {
           alert(message);
         });
       };
       document.body.appendChild(script);
     </script>
-  <script>
-    if (window.Telegram.WebApp) {
-      const tg = window.Telegram.WebApp;
-      tg.ready();
-      tg.expand();
-      tg.enableClosingConfirmation(true);
-      if (tg.isVersionAtLeast("7.7")) {
-        tg.disableVerticalSwipes();
+    <script>
+      if (window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        tg.enableClosingConfirmation(true);
+        if (tg.isVersionAtLeast("7.7")) {
+          tg.disableVerticalSwipes();
+        }
       }
-    }
-
-  </script>
-  <script>
-    eruda.init();
-  </script>
+    </script>
+    <script>
+      eruda.init();
+    </script>
   </body>
 </html>
