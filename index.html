@@ -107,6 +107,7 @@
           progressBarValue.innerHTML = Math.round(100 * progress) + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
+          window.unityInstance = unityInstance;
           const fitScreen = function() {
             const body = document.body;
             const docElement = document.documentElement;
