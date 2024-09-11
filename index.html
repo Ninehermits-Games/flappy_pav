@@ -134,7 +134,9 @@
     <script>
       if (window.Telegram.WebApp) {
         const tg = window.Telegram.WebApp;
-        tg.themeParams.secondary_bg_color="#ff0";
+        tg.setHeaderColor("#ff0");
+        tg.setBackgroundColor("#ff0");
+        tg.setBottomBarColor("#ff0");
         tg.ready();
         tg.expand();
         tg.enableClosingConfirmation(true);
